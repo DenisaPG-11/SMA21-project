@@ -44,11 +44,18 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(toolbarLogin);
         getSupportActionBar().setTitle("Login Screen");
 
+//        if (firebaseAuth != null ){
+//            Intent intent = new Intent( LoginActivity.this, HomeActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+
         questionLoginScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( LoginActivity.this, RegistrationActivity.class);
                 startActivity(intent);
+//                finish();
             }
         });
 
@@ -74,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 Intent intent = new Intent( LoginActivity.this, HomeActivity.class);
                                 startActivity(intent);
-   //                             finish();
+                                finish();
                             }else {
                                 String error = task.getException().toString();
                                 Toast.makeText(LoginActivity.this, "Login failed " + error, Toast.LENGTH_SHORT).show();

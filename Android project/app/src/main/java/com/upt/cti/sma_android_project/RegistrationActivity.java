@@ -50,8 +50,14 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent( RegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
+//                finish();
             }
         });
+
+//        if (firebaseAuth.getCurrentUser() != null) {
+//            startActivity( new Intent(getApplicationContext(), HomeActivity.class));
+//            finish();
+//        }
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,24 +73,28 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(password)){
                     registerPassword.setError("You need to add an password!");
                     return;
-                } else {
-
-                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Intent intent = new Intent( RegistrationActivity.this, HomeActivity.class);
-                                startActivity(intent);
-    //                            finish();
-                            }else {
-                                String error = task.getException().toString();
-                                Toast.makeText(RegistrationActivity.this, "Registration failed " + error, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
                 }
 
+                if (password.length() < 6 ) {
+                    registerPassword.setError("Password should contain more than 6 characters");
+                    return;
+                }
+
+                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Intent intent = new Intent( RegistrationActivity.this, HomeActivity.class);
+                            startActivity(intent);
+//                        startActivity( new Intent(getApplicationContext(), HomeActivity.class));
+                            finish();
+
+                        }else {
+                            String error = task.getException().toString();
+                            Toast.makeText(RegistrationActivity.this, "Registration failed " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
