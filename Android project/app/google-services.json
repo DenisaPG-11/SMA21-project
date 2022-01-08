@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "815237828949",
+    "project_id": "sma-android-project-todo-list",
+    "storage_bucket": "sma-android-project-todo-list.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815237828949:android:2bfbda1474a8d1f2f19fdc",
+        "android_client_info": {
+          "package_name": "com.upt.cti.sma_android_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815237828949-5qt0rf7tp6m3ds17sikitjjkqrp17pod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2ajfWUEdZlS5kw3zgAstbe7hPeYvIQew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815237828949-5qt0rf7tp6m3ds17sikitjjkqrp17pod.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
