@@ -168,6 +168,17 @@ public class HomeActivity extends AppCompatActivity {
                 holder.setTask(model.getTask());
                 holder.setDescription(model.getTaskDescription());
 
+                holder.mvView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        key = getRef(position).getKey();
+                        task = model.getTask();
+                        description = model.getTaskDescription();
+
+                        actionsTask();
+                    }
+                });
+
             }
 
             @NonNull
@@ -180,6 +191,78 @@ public class HomeActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
         adapter.startListening();
+    }
+
+
+    private void actionsTask() {
+
+        AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.actions, null);
+
+        myDialog.setView(view);
+
+        AlertDialog dialog = myDialog.create();
+
+        EditText mTask = view.findViewById(R.id.updateTask);
+        EditText mDescription = view.findViewById(R.id.updateDescription);
+
+        mTask.setText(task);
+        mTask.setSelection(task.length());
+
+        mDescription.setText(description);
+        mDescription.setSelection(description.length());
+
+        Button update = view.findViewById(R.id.update_button);
+        Button delete = view.findViewById(R.id.delete_button);
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reference.child(key).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(HomeActivity.this, "Task has been deleted successfully " , Toast.LENGTH_SHORT).show();
+                        } else {
+                            String error = task.getException().toString();
+                            Toast.makeText(HomeActivity.this, "Failed" + error , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                dialog.dismiss();
+            }
+        });
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String task = mTask.getText().toString().trim();
+                String description = mDescription.getText().toString().trim();
+
+                String date = DateFormat.getDateInstance().format(new Date());
+
+                Model model =  new Model(task, description, key, date);
+                reference.child(key).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(HomeActivity.this, "Task has been updated successfully " , Toast.LENGTH_SHORT).show();
+                        } else {
+                            String error = task.getException().toString();
+                            Toast.makeText(HomeActivity.this, "Failed" + error , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
