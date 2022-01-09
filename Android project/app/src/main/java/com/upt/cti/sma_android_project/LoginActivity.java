@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView questionLoginScreen;
     private Toolbar toolbarLogin;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +39,21 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         toolbarLogin =  findViewById(R.id.login_toolbar);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-
         setSupportActionBar(toolbarLogin);
         getSupportActionBar().setTitle("Login Screen");
 
-//        if (firebaseAuth != null ){
-//            Intent intent = new Intent( LoginActivity.this, HomeActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth != null ){
+            Intent intent = new Intent( LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
 
         questionLoginScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( LoginActivity.this, RegistrationActivity.class);
                 startActivity(intent);
-//                finish();
             }
         });
 
@@ -73,22 +71,21 @@ public class LoginActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(password)){
                     loginPassword.setError("You need to add an password!");
                     return;
-                } else {
-
-                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Intent intent = new Intent( LoginActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }else {
-                                String error = task.getException().toString();
-                                Toast.makeText(LoginActivity.this, "Login failed " + error, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
                 }
+
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Intent intent = new Intent( LoginActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            String error = task.getException().toString();
+                            Toast.makeText(LoginActivity.this, "Login failed " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
             }
         });

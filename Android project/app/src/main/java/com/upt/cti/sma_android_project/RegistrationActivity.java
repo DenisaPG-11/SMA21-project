@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,7 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button registerButton;
     private TextView questionRegistrationScreen;
     private Toolbar toolbarRegistration;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +39,16 @@ public class RegistrationActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.register_button);
         toolbarRegistration =  findViewById(R.id.register_toolbar);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-
         setSupportActionBar(toolbarRegistration);
         getSupportActionBar().setTitle("Registration Screen");
+
+        mAuth = FirebaseAuth.getInstance();
 
         questionRegistrationScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( RegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
-//                finish();
             }
         });
 
@@ -80,15 +78,13 @@ public class RegistrationActivity extends AppCompatActivity {
                     return;
                 }
 
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Intent intent = new Intent( RegistrationActivity.this, HomeActivity.class);
                             startActivity(intent);
-//                        startActivity( new Intent(getApplicationContext(), HomeActivity.class));
                             finish();
-
                         }else {
                             String error = task.getException().toString();
                             Toast.makeText(RegistrationActivity.this, "Registration failed " + error, Toast.LENGTH_SHORT).show();
