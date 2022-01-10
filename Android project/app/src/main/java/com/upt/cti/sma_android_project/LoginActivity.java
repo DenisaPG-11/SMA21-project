@@ -44,10 +44,10 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        if (mAuth != null ){
-            Intent intent = new Intent( LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
-        }
+//        if (mAuth != null ){
+//            Intent intent = new Intent( LoginActivity.this, HomeActivity.class);
+//            startActivity(intent);
+//        }
 
         questionLoginScreen.setOnClickListener(new View.OnClickListener() {
             @Override

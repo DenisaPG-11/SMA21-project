@@ -6,7 +6,7 @@ Android App Project
 
 This app is a prototype for a TODO List Application. 
 
-As a user of this application, you are able to create an account, functionality managed with the Firebase Authentication Database. 
+As a user of this application, you are able to create an account, functionality managed with the Firebase Authentication Database ( https://console.firebase.google.com/u/0/project/sma-android-project-todo-list/authentication/users ) . 
 If you don't already have an account, you can create a new one. 
 
 After you finished the sign in process, you have a dashboard design as Home Screen, wher you can add all of your task.
